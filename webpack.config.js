@@ -97,6 +97,7 @@ module.exports = (env, options) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
+        favicon: "./resource/favicon.ico",
         chunks: ['app'], /* stop injecting css */
         inject: true,
         hash: true, /* cache busting */
