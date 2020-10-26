@@ -31,12 +31,8 @@
   <div class="p-d-flex p-jc-center fullheight">
     <div class="p-as-center loginbox rellax" data-rellax-speed="-2">
       <img :src="panda_image" class="panda"/>
+      <Message style="position: absolute; bottom: -100px; left: 70px;" severity="error">Login failed!</Message>
       <Card>
-        <template v-slot:header>
-          <div class="cardhead">
-          </div>
-        </template>
-
         <template v-slot:title>
         Login
         </template>
@@ -63,7 +59,8 @@
 
         <template v-slot:footer>
           <div class="p-grid p-jc-end">
-            <Button label="Login" class="p-mr-2 p-mb-2"/>
+            <Button label="Login" class="p-mr-2 p-mb-2"
+             @click="onLogin" v-bind:disabled="showProgress"/>
           </div>
         </template>
       </Card>
@@ -101,7 +98,8 @@ module.exports = {
       logo: require('./resource/logo.png'),
       nightTheme: false,
       username: '',
-      password: ''
+      password: '',
+      showProgress: false
     }
   },
 
@@ -118,6 +116,14 @@ module.exports = {
       theme.id = "theme"
       theme.href = 'light.css' /* default */
       document.head.appendChild(theme)
+    },
+
+    onLogin() {
+      const vm = this
+      this.showProgress = true
+      setTimeout(function() {
+        vm.showProgress = false
+      }, 3000)
     }
   }
 }
@@ -139,11 +145,6 @@ module.exports = {
   right: 10%;
   bottom: 0;
   z-index: -1;
-}
-
-.cardhead {
-  width: 100%;
-  height: 10px;
 }
 
 .fullheight {
