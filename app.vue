@@ -15,7 +15,7 @@
     </template>
   </Toolbar>
   
-  <css-doodle class="doodle">
+  <css-doodle class="doodle rellax" data-rellax-speed="3">
     @grid: 40x2 / 60%;
     @place-cell: center;
     @size: calc(100% / @size * @i);
@@ -29,7 +29,7 @@
   </css-doodle>
 
   <div class="p-d-flex p-jc-center fullheight">
-    <div class="p-as-center loginbox">
+    <div class="p-as-center loginbox rellax" data-rellax-speed="-2">
       <img :src="panda_image" class="panda"/>
       <Card>
         <template v-slot:header>
@@ -73,9 +73,12 @@
 </template>
 
 <script>
+const Rellax = require('rellax')
+
 module.exports = {
   mounted: function() {
     this.attachDefaultTheme()
+    new Rellax('.rellax')
   },
 
   watch: {
@@ -122,13 +125,18 @@ module.exports = {
 
 <style>
 .topbar {
-  position: absolute;
+  position: fixed;
+  top: 0;
   width: 100%;
+}
+
+.loginbox {
+  position: relative;
 }
 
 .doodle {
   position: absolute;
-  right: 0;
+  right: 10%;
   bottom: 0;
   z-index: -1;
 }
@@ -144,6 +152,7 @@ module.exports = {
 
 .panda {
   position: absolute;
+  z-index: 1;
   top: -20%;
   left: 50%;
   width: 120px;
@@ -151,18 +160,7 @@ module.exports = {
   transform: translate(-50%, 0);
 }
 
-.loginbox {
-  position: relative;
-}
-
 body {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  width: 100%;
-  height: 100%;
   background-image: url("./resource/stars.png");
   background-size: cover;
   background-repeat: no-repeat;
