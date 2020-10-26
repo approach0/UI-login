@@ -1,21 +1,28 @@
-html > body > #app .p-component,.p-grid  {
-  font-family: 'Linux Libertine' !important;
-  font-size: 1.3rem;
+html, body, #app {
+  margin:0;
+  height:100%;
 }
 
 body {
-  margin:0;
-  height:100%;
   overflow-x:hidden;
   overflow-y:auto;
   background-color:var(--surface-a);
-  font-family:var(--font-family);
+  font-size: 1.3rem;
   font-weight:400;
   color:var(--text-color);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  background-color: var(--surface-b);
+}
+
+.las {
+  font-size: 1.5em;
 }
 
 a {
   text-decoration:none
+}
+
+span.spacer {
+  width: 8px;
 }

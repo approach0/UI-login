@@ -20,7 +20,7 @@ module.exports = (env, options) => {
     /* default is development mode, run 'yarn run build' for production. */
     mode: mode,
     entry: { /* required field */
-      light: __dirname + '/node_modules/primevue/resources/themes/saga-blue/theme.css',
+      light: __dirname + '/node_modules/primevue/resources/themes/md-light-indigo/theme.css',
       night: __dirname + '/node_modules/primevue/resources/themes/vela-blue/theme.css',
       app: __dirname + '/main.js'
     },

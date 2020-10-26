@@ -1,23 +1,70 @@
 <template>
-  <div>
-    <Button @click="nightTheme = !nightTheme">Change theme</Button>
+  <Toolbar class="topbar">
+    <template v-slot:left>
+      <img :src="logo"/>
+      <span class="spacer"/>
+      <h3>Approach Zero</h3>
+    </template>
 
-    <Dialog header="Theme Toggle" v-model:visible="showDialog">
-      Current theme is {{nightTheme ? "night theme" : "light theme"}}.
-    </Dialog>
+    <template v-slot:right>
+      <i class="las la-sun"></i>
+      <span class="spacer"/>
+      <InputSwitch v-model="nightTheme"/>
+      <span class="spacer"/>
+      <i class="las la-moon"></i>
+    </template>
+  </Toolbar>
+  
+  <css-doodle class="doodle">
+    @grid: 40x2 / 60%;
+    @place-cell: center;
+    @size: calc(100% / @size * @i);
 
-    <div class="p-grid">
-        <div class="p-col">1</div>
-        <div class="p-col">2</div>
-        <div class="p-col">3</div>
+    transform: rotate(calc(@i * 5deg));
+
+    border-radius: 30%;
+    border: 1px solid hsla(
+      calc(10 + 4 * @i), 70%, 68%, @r.8
+    );
+  </css-doodle>
+
+  <div class="p-d-flex p-jc-center fullheight">
+    <div class="p-as-center">
+      <Card>
+        <template v-slot:header>
+          <div class="cardhead">
+          </div>
+        </template>
+
+        <template v-slot:title>
+        Login
+        </template>
+
+        <template v-slot:content>
+          <div class="p-fluid">
+
+            <div class="p-field">
+              <label for="username">Username</label>
+              <InputText type="text" v-model="username"/>
+            </div>
+
+            <div class="p-field">
+              <label for="username">Password</label>
+              <InputText type="password" v-model="password"/>
+            </div>
+
+          </div>
+        </template>
+
+        <template v-slot:footer>
+          <div class="p-grid p-jc-end">
+            <Button label="Login" class="p-mr-2 p-mb-2"/>
+          </div>
+        </template>
+      </Card>
     </div>
-
-    <Card>
-      <template v-slot:content>
-      Content
-      </template>
-    </Card>
   </div>
+
 </template>
 
 <script>
@@ -33,14 +80,15 @@ module.exports = {
       } else {
         this.changeTheme('light.css')
       }
-      this.showDialog = true
     }
   },
 
   data: function() {
     return {
+      logo: require('./resource/logo.png'),
       nightTheme: false,
-      showDialog: false
+      username: '',
+      password: ''
     }
   },
 
@@ -62,5 +110,38 @@ module.exports = {
 }
 </script>
 
-<style scoped>
+<style>
+.topbar {
+  position: absolute;
+  width: 100%;
+}
+
+.doodle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.cardhead {
+  width: 100%;
+  height: 10px;
+}
+
+.fullheight {
+  height: 100%;
+}
+
+body {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: url("./resource/stars.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 </style>
