@@ -29,7 +29,8 @@
   </css-doodle>
 
   <div class="p-d-flex p-jc-center fullheight">
-    <div class="p-as-center">
+    <div class="p-as-center loginbox">
+      <img :src="panda_image" class="panda"/>
       <Card>
         <template v-slot:header>
           <div class="cardhead">
@@ -45,12 +46,16 @@
 
             <div class="p-field">
               <label for="username">Username</label>
-              <InputText type="text" v-model="username"/>
+              <InputText type="text" v-model="username"
+               @focus="panda_image=panda_username"
+               @blur="panda_image=panda_normal"/>
             </div>
 
             <div class="p-field">
               <label for="username">Password</label>
-              <InputText type="password" v-model="password"/>
+              <InputText type="password" v-model="password"
+               @focus="panda_image=panda_password"
+               @blur="panda_image=panda_normal"/>
             </div>
 
           </div>
@@ -84,7 +89,12 @@ module.exports = {
   },
 
   data: function() {
+    const panda_normal = require('./resource/panda-normal.png')
+    const panda_username = require('./resource/panda-username.png')
+    const panda_password = require('./resource/panda-password.png')
     return {
+      panda_normal, panda_username, panda_password,
+      panda_image: panda_normal,
       logo: require('./resource/logo.png'),
       nightTheme: false,
       username: '',
@@ -130,6 +140,19 @@ module.exports = {
 
 .fullheight {
   height: 100%;
+}
+
+.panda {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 120px;
+  height: 95px;
+  transform: translate(-50%, 0);
+}
+
+.loginbox {
+  position: relative;
 }
 
 body {
