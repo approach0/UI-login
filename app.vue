@@ -174,7 +174,7 @@ module.exports = {
               window.location.replace(url)
             }, 1000)
           } else {
-            vm.errmsg = "Login failed."
+            vm.errmsg = `Login failed: ${data.msg}`
           }
         })
         .catch(function(err) {
