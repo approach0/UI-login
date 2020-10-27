@@ -30,8 +30,18 @@
 
   <div class="p-d-flex p-jc-center fullheight">
     <div class="p-as-center loginbox rellax" data-rellax-speed="-2">
+
       <img :src="panda_image" class="panda"/>
-      <Message style="position: absolute; bottom: -100px; left: 70px;" severity="error">Login failed!</Message>
+
+      <div class="p-d-flex p-jc-center" v-if="errmsg || sucmsg">
+        <Message style="position: absolute; bottom: -140px" severity="error" v-if="errmsg">
+          {{errmsg}}
+        </Message>
+        <Message style="position: absolute; bottom: -140px" severity="success" v-else>
+          {{sucmsg}}
+        </Message>
+      </div>
+
       <Card>
         <template v-slot:title>
         Login
@@ -64,6 +74,9 @@
           </div>
         </template>
       </Card>
+
+      <ProgressBar mode="indeterminate" v-show="showProgress"/>
+
     </div>
   </div>
 
@@ -71,6 +84,7 @@
 
 <script>
 const Rellax = require('rellax')
+const axios = require('axios')
 
 module.exports = {
   mounted: function() {
@@ -99,6 +113,8 @@ module.exports = {
       nightTheme: false,
       username: '',
       password: '',
+      sucmsg: '',
+      errmsg: '',
       showProgress: false
     }
   },
@@ -118,12 +134,55 @@ module.exports = {
       document.head.appendChild(theme)
     },
 
+    formCheck(validCallbk) {
+      if (this.username.trim() === "") {
+        this.errmsg = "Please enter your username."
+      } else if (this.password.trim() === "") {
+        this.errmsg = "Please enter your password."
+      } else {
+        validCallbk()
+      }
+    },
+
+    getNextURL() {
+      const parms = window.location.search
+      const match = parms.match(/next=([^&]+)/) || []
+      if (match[1])
+        return decodeURIComponent(match[1])
+      else
+        return '/'
+    },
+
     onLogin() {
       const vm = this
-      this.showProgress = true
-      setTimeout(function() {
-        vm.showProgress = false
-      }, 3000)
+      vm.errmsg = ''
+      vm.formCheck(function() {
+        vm.showProgress = true
+
+        axios.post("./jwt", {
+          username: vm.username,
+          password: vm.password
+        })
+        .then(function(res) {
+          const data = res.data
+          vm.showProgress = false
+
+          if (data.pass) {
+            vm.sucmsg = "Welcome! Redirect in a few second(s) ..."
+            setTimeout(function () {
+              const url = vm.getNextURL()
+              window.location.replace(url)
+            }, 1000)
+          } else {
+            vm.errmsg = "Login failed."
+          }
+        })
+        .catch(function(err) {
+          const errstr = err.toString()
+          vm.showProgress = false
+          vm.errmsg = errstr
+        })
+      })
     }
   }
 }
