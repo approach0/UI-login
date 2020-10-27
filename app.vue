@@ -53,14 +53,14 @@
             <div class="p-field">
               <label for="username">Username</label>
               <InputText type="text" v-model="username"
-               @focus="panda_image=panda_username"
+               @focus="panda_image=panda_username" @keyup.enter="onLogin"
                @blur="panda_image=panda_normal"/>
             </div>
 
             <div class="p-field">
               <label for="username">Password</label>
               <InputText type="password" v-model="password"
-               @focus="panda_image=panda_password"
+               @focus="panda_image=panda_password" @keyup.enter="onLogin"
                @blur="panda_image=panda_normal"/>
             </div>
 
@@ -153,35 +153,39 @@ module.exports = {
         return '/'
     },
 
+    JwtRequst() {
+      const vm = this
+      axios.post("/auth/login/jwt", {
+        username: vm.username,
+        password: vm.password
+      })
+      .then(function(res) {
+        const data = res.data
+        vm.showProgress = false
+
+        if (data.pass) {
+          vm.sucmsg = "Welcome! Redirect in a few second(s) ..."
+          setTimeout(function () {
+            const url = vm.getNextURL()
+            window.location.replace(url)
+          }, 1000)
+        } else {
+          vm.errmsg = `Login failed: ${data.msg}`
+        }
+      })
+      .catch(function(err) {
+        const errstr = err.toString()
+        vm.showProgress = false
+        vm.errmsg = errstr
+      })
+    },
+
     onLogin() {
       const vm = this
       vm.errmsg = ''
       vm.formCheck(function() {
         vm.showProgress = true
-
-        axios.post("/auth/login/jwt", {
-          username: vm.username,
-          password: vm.password
-        })
-        .then(function(res) {
-          const data = res.data
-          vm.showProgress = false
-
-          if (data.pass) {
-            vm.sucmsg = "Welcome! Redirect in a few second(s) ..."
-            setTimeout(function () {
-              const url = vm.getNextURL()
-              window.location.replace(url)
-            }, 1000)
-          } else {
-            vm.errmsg = `Login failed: ${data.msg}`
-          }
-        })
-        .catch(function(err) {
-          const errstr = err.toString()
-          vm.showProgress = false
-          vm.errmsg = errstr
-        })
+        setTimeout(vm.JwtRequst, 500)
       })
     }
   }
