@@ -174,10 +174,10 @@ module.exports = {
             window.location.replace(url)
           }, 2000)
         } else {
-          vm.errMsg = `Login failed: ${data.msg}`
-		  if (data.left_chances > 0) {
-			vm.warnMsg = `You have ${data.left_chances} chance(s).`
-		  }
+          vm.errMsg = `Login failed: ${data.msg.errmsg}`
+          if (data.msg.left_chances > 0) {
+            vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
+          }
         }
       })
       .catch(function(err) {
@@ -190,8 +190,8 @@ module.exports = {
     onLogin() {
       const vm = this
       vm.errMsg = ''
-	  vm.warnMsg = ''
-	  vm.succMsg = ''
+      vm.warnMsg = ''
+      vm.succMsg = ''
 
       vm.formCheck(function() {
         vm.showProgress = true
