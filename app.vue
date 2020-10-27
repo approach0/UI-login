@@ -159,7 +159,7 @@ module.exports = {
       vm.formCheck(function() {
         vm.showProgress = true
 
-        axios.post("./jwt", {
+        axios.post("/auth/login/jwt", {
           username: vm.username,
           password: vm.password
         })
