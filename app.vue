@@ -168,7 +168,7 @@ module.exports = {
         vm.showProgress = false
 
         if (data.pass) {
-          vm.succMsg = "Welcome! Redirect in a few second(s) ..."
+          vm.succMsg = "Welcome! Redirecting in a few second(s) ..."
           setTimeout(function () {
             const url = vm.getNextURL()
             window.location.replace(url)
