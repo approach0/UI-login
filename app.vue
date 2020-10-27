@@ -33,12 +33,15 @@
 
       <img :src="panda_image" class="panda"/>
 
-      <div class="p-d-flex p-jc-center" v-if="errmsg || sucmsg">
-        <Message style="position: absolute; bottom: -140px" severity="error" v-if="errmsg">
-          {{errmsg}}
+      <div class="p-d-flex p-jc-center" v-if="errMsg || warnMsg || succMsg">
+        <Message style="position: absolute; bottom: -110px" severity="success" v-if="succMsg">
+          {{succMsg}}
         </Message>
-        <Message style="position: absolute; bottom: -140px" severity="success" v-else>
-          {{sucmsg}}
+        <Message style="position: absolute; bottom: -110px" severity="error" v-if="errMsg">
+          {{errMsg}}
+        </Message>
+        <Message style="position: absolute; bottom: -200px" severity="warn" v-if="warnMsg">
+          {{warnMsg}}
         </Message>
       </div>
 
@@ -113,8 +116,9 @@ module.exports = {
       nightTheme: false,
       username: '',
       password: '',
-      sucmsg: '',
-      errmsg: '',
+      succMsg: '',
+      warnMsg: '',
+      errMsg: '',
       showProgress: false
     }
   },
@@ -136,9 +140,9 @@ module.exports = {
 
     formCheck(validCallbk) {
       if (this.username.trim() === "") {
-        this.errmsg = "Please enter your username."
+        this.errMsg = "Please enter your username."
       } else if (this.password.trim() === "") {
-        this.errmsg = "Please enter your password."
+        this.errMsg = "Please enter your password."
       } else {
         validCallbk()
       }
@@ -164,25 +168,31 @@ module.exports = {
         vm.showProgress = false
 
         if (data.pass) {
-          vm.sucmsg = "Welcome! Redirect in a few second(s) ..."
+          vm.succMsg = "Welcome! Redirect in a few second(s) ..."
           setTimeout(function () {
             const url = vm.getNextURL()
             window.location.replace(url)
-          }, 1000)
+          }, 2000)
         } else {
-          vm.errmsg = `Login failed: ${data.msg}`
+          vm.errMsg = `Login failed: ${data.msg}`
+		  if (data.left_chances > 0) {
+			vm.warnMsg = `You have ${data.left_chances} chance(s).`
+		  }
         }
       })
       .catch(function(err) {
         const errstr = err.toString()
         vm.showProgress = false
-        vm.errmsg = errstr
+        vm.errMsg = errstr
       })
     },
 
     onLogin() {
       const vm = this
-      vm.errmsg = ''
+      vm.errMsg = ''
+	  vm.warnMsg = ''
+	  vm.succMsg = ''
+
       vm.formCheck(function() {
         vm.showProgress = true
         setTimeout(vm.JwtRequst, 500)
