@@ -14,7 +14,7 @@
       <i class="las la-moon"></i>
     </template>
   </Toolbar>
-  
+
   <css-doodle class="doodle rellax" data-rellax-speed="3">
     @grid: 40x2 / 60%;
     @place-cell: center;
@@ -174,9 +174,13 @@ module.exports = {
             window.location.replace(url)
           }, 2000)
         } else {
-          vm.errMsg = `Login failed: ${data.msg.errmsg}`
-          if (data.msg.left_chances > 0) {
-            vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
+          if (vm.errMsg) {
+            vm.errMsg = `Login failed: ${data.msg.errmsg}`
+            if (data.msg.left_chances > 0) {
+              vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
+            }
+          } else {
+            vm.warnMsg = `Sorry. Our service is temporarily unavailable.`
           }
         }
       })
