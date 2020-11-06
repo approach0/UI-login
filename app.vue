@@ -173,15 +173,15 @@ module.exports = {
             const url = vm.getNextURL()
             window.location.replace(url)
           }, 2000)
-        } else {
-          if (data.msg) {
-            vm.errMsg = `Login failed: ${data.msg.errmsg}`
-            if (data.msg.left_chances > 0) {
-              vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
-            }
-          } else {
-            vm.warnMsg = `Sorry. Our service is temporarily unavailable.`
+
+        } else if (data.msg) {
+          vm.errMsg = `Login failed: ${data.msg.errmsg}`
+          if (data.msg.left_chances > 0) {
+            vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
           }
+
+        } else {
+          vm.warnMsg = `Sorry. Our service is temporarily unavailable.`
         }
       })
       .catch(function(err) {
