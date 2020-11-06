@@ -174,7 +174,7 @@ module.exports = {
             window.location.replace(url)
           }, 2000)
         } else {
-          if (vm.msg) {
+          if (data.msg) {
             vm.errMsg = `Login failed: ${data.msg.errmsg}`
             if (data.msg.left_chances > 0) {
               vm.warnMsg = `You have ${data.msg.left_chances} chance(s).`
