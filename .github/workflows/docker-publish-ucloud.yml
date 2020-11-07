@@ -8,7 +8,7 @@ on:
 
 env:
   # EDIT this env variable
-  IMAGE_ID: uhub.service.ucloud.cn/ga6840/lattice
+  IMAGE_ID: uhub.service.ucloud.cn/ga6840/ui-login
 
 jobs:
 

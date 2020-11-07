@@ -8,7 +8,7 @@ on:
 
 env:
   # EDIT this env variable
-  IMAGE_ID: docker.io/approach0/ui-calabash
+  IMAGE_ID: docker.io/approach0/ui-login
 
 jobs:
 
