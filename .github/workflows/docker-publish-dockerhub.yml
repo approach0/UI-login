@@ -1,13 +1,14 @@
-name: Docker auto-push
+# EDIT this workflow name
+name: Push to DockerHub
 
 on:
   push:
     branches: [ deploy ]
-    tags: [ v* ]
+    tags: [ 'v*' ]
 
 env:
   # EDIT this env variable
-  IMAGE_ID: uhub.service.ucloud.cn/ga6840/ui-login
+  IMAGE_ID: docker.io/approach0/ui-calabash
 
 jobs:
 
@@ -22,7 +23,7 @@ jobs:
 
     # EDIT this Docker registry credentials
     - name: Docker registry login
-      run: echo "${{ secrets.UCLOUDPASSWORD }}" | docker login https://uhub.service.ucloud.cn -u ${{ secrets.UCLOUDUSERNAME }} --password-stdin
+      run: echo "${{ secrets.DOCKERHUBPASSWORD }}" | docker login docker.io -u approach0 --password-stdin
 
     - name: Push image
       run: |
